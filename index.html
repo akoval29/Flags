@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="src/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="test" />
+    <title>Countries v.1</title>
+    <link rel="stylesheet" href="style/style.css" />
+  </head>
+  <body class="main main--light">
+    <header class="header">
+      <article class="header__firstLine">
+        <p class="header__title">Where in the world?</p>
+        <div class="header__mode">
+          <img
+            class="header__img header__img--dark"
+            src="./src/Mode--dark.png"
+            alt="ModeDark"
+          />
+          <img
+            class="header__img header__img--light"
+            src="./src/Mode--light.png"
+            alt="ModeLight"
+          />
+          <p class="header__mode-flag">Dark Mode</p>
+        </div>
+      </article>
+      <article class="header__secondLine">
+        <div class="header__input-wrap">
+          <input
+            class="header__input"
+            name="header__input"
+            type="text"
+            placeholder="Search for a region"
+            required
+          />
+          <button class="header__btn">Go</button>
+          <div class="header__target">Loading ...</div>
+        </div>
+        <div class="header__filter">
+          <p class="header__filterFlag">Filter by Region</p>
+          <ul class="header__list">
+            <a href="#" class="header__list-item">name</a>
+            <a href="#" class="header__list-item">region</a>
+            <a href="#" class="header__list-item">lang</a>
+            <a href="#" class="header__list-item">currency</a>
+            <a href="#" class="header__list-item">capital</a>
+          </ul>
+        </div>
+      </article>
+    </header>
+    <section class="coutries"></section>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="js/script.js"></script>
+  </body>
+</html>
