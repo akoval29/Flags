@@ -5,7 +5,7 @@
     <link rel="icon" href="src/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="test" />
-    <title>Countries v.1</title>
+    <title>Countries v.2</title>
     <link rel="stylesheet" href="style/style.css" />
   </head>
   <body class="main main--light">
@@ -35,22 +35,62 @@
             placeholder="Search for a region"
             required
           />
-          <button class="header__btn">Go</button>
           <div class="header__target">Loading ...</div>
         </div>
-        <div class="header__filter">
+
+        <section class="header__filter">
           <p class="header__filterFlag">Filter by Region</p>
           <ul class="header__list">
-            <a href="#" class="header__list-item">name</a>
-            <a href="#" class="header__list-item">region</a>
-            <a href="#" class="header__list-item">lang</a>
-            <a href="#" class="header__list-item">currency</a>
-            <a href="#" class="header__list-item">capital</a>
+            <li class="header__list-item">
+              <a href="#" class="header__list-item-title">All</a>
+            </li>
+
+            <li class="header__list-item">
+              <a href="#" class="header__list-item-title">Region</a>
+              <ul class="header__subList">
+                <li class="header__subList-item">Europe</li>
+                <li class="header__subList-item">Asia</li>
+                <li class="header__subList-item">Africa</li>
+                <li class="header__subList-item">America</li>
+                <li class="header__subList-item">Antarctic</li>
+                <li class="header__subList-item">Oceania</li>
+              </ul>
+            </li>
+
+            <li class="header__list-item">
+              <a href="#" class="header__list-item-title">Language</a>
+              <ul class="header__subList">
+                <li class="header__subList-item">English</li>
+                <li class="header__subList-item">Arabic</li>
+                <li class="header__subList-item">French</li>
+                <li class="header__subList-item">Spanish</li>
+                <li class="header__subList-item">Portuguese</li>
+                <li class="header__subList-item">German</li>
+                <li class="header__subList-item">Japanese</li>
+                <li class="header__subList-item">Swedish</li>
+                <li class="header__subList-item">Korean</li>
+                <li class="header__subList-item">Dutch</li>
+              </ul>
+            </li>
+
+            <li class="header__list-item">
+              <a href="#" class="header__list-item-title">Currency</a>
+              <ul class="header__subList">
+                <li class="header__subList-item">Dollar</li>
+                <li class="header__subList-item">Euro</li>
+                <li class="header__subList-item">Dinar</li>
+                <li class="header__subList-item">Pound</li>
+                <li class="header__subList-item">Sterling</li>
+                <li class="header__subList-item">Ena</li>
+              </ul>
+            </li>
           </ul>
-        </div>
+        </section>
       </article>
     </header>
-    <section class="coutries"></section>
+    <section class="coutries">
+      <span class="coutries__spinner"></span>
+    </section>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module" src="js/script.js"></script>
   </body>

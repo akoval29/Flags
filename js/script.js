@@ -6,35 +6,40 @@ const headerInput = document.querySelector(".header__input");
 const headerMode = document.querySelector(".header__mode");
 const searchBtn = document.querySelector(".header__btn");
 const layout = document.querySelector(".coutries");
+
 const filter = document.querySelector(".header__filter");
+
+const listItem = document.querySelectorAll(".header__list-item");
+const listItemTitle = document.querySelectorAll(".header__subList-item");
+
+const subList = document.querySelectorAll(".header__subList-item");
+
 const filterFlag = document.querySelector(".header__filterFlag");
 const target = document.querySelector(".header__target");
 
-// перший старт - регіон - Європа
-let currentMethod;
+// отримуєм дані
+// let currentMethod;
 document.addEventListener("DOMContentLoaded", async () => {
-  const subLink = document.querySelectorAll(".header__list-item");
-  const res = await getCountry(); // працюють дефолтні значення в useAPI
+  const res = await getCountry();
   onRequest(res.data);
-  target.innerHTML = `${res.data[0].region} (${res.data.length})`;
-  // розкидуєм eventListener на елементи меню, змінюєм фільтр і плейсхолдер
-  for (let i = 0; i < subLink.length; i++) {
-    subLink[i].addEventListener("click", (event) => {
+  target.innerHTML = `All counries (${res.data.length})`;
+
+  // розкидуєм eventListener на елементи меню, змінюєм фільтр
+  for (let i = 0; i < listItemTitle.length; i++) {
+    listItemTitle[i].addEventListener("click", (event) => {
       event.preventDefault();
-      currentMethod = subLink[i].textContent;
-      filterFlag.innerHTML = `Filter by ${currentMethod}`;
-      headerInput.placeholder = `Search for a ${currentMethod}`;
+      filterFlag.innerHTML = `Filter by ${listItemTitle[i].textContent}`;
     });
   }
 });
 
 // Пошук
-searchBtn.addEventListener("click", async () => {
-  const res = await getCountry(currentMethod, headerInput.value);
-  onRequest(res.data);
-  target.innerHTML = `${headerInput.value} (${res.data.length})`;
-  headerInput.value = "";
-});
+// searchBtn.addEventListener("click", async () => {
+//   const res = await getCountry(currentMethod, headerInput.value);
+//   onRequest(res.data);
+//   target.innerHTML = `${headerInput.value} (${res.data.length})`;
+//   headerInput.value = "";
+// });
 
 // onRequest - генерим верстку
 function onRequest(data) {
@@ -67,20 +72,33 @@ function onRequest(data) {
   }
 }
 
-// Фільтр - ховер
-filter.addEventListener("mouseenter", () => {
-  const sublist = document.querySelector(".header__list");
-  sublist.classList.add("header__list--active");
-});
-filter.addEventListener("mouseleave", () => {
-  const sublist = document.querySelector(".header__list");
-  sublist.classList.remove("header__list--active");
-});
-// Фільтр - клік (+ для мобілок)
-filter.addEventListener("click", () => {
-  const sublist = document.querySelector(".header__list");
-  sublist.classList.toggle("header__list--active");
-});
+// // меню - перший рівень - ховер
+// filter.addEventListener("mouseenter", () => {
+//   const list = document.querySelector(".header__list");
+//   list.classList.add("header__list--active");
+// });
+// filter.addEventListener("mouseleave", () => {
+//   const list = document.querySelector(".header__list");
+//   list.classList.remove("header__list--active");
+// });
+// // Фільтр - клік
+// filter.addEventListener("click", () => {
+//   const list = document.querySelector(".header__list");
+//   list.classList.toggle("header__list--active");
+// });
+
+// // меню - другий рівень - ховер
+// listItem.addEventListener("mouseenter", () => {
+//   console.log(subList);
+//   subList.classList.add("header__subList--active");
+// });
+// listItem.addEventListener("mouseleave", () => {
+//   subList.classList.remove("header__subList--active");
+// });
+// // меню - другий рівень - клік
+// listItem.addEventListener("click", () => {
+//   subList.classList.toggle("header__subList--active");
+// });
 
 // тоглим тему
 headerMode.addEventListener("click", () => {
@@ -91,9 +109,9 @@ headerMode.addEventListener("click", () => {
 
   // тоглим тему - красим box-shadow кольором теми 1/3
   const countryBox = document.querySelectorAll(".coutries__country");
-  const searchBtn = document.querySelector(".header__btn");
+  const filter = document.querySelector(".header__filter");
   const color = window
-    .getComputedStyle(searchBtn)
+    .getComputedStyle(filter)
     .getPropertyValue("background-color");
   for (let i = 0; i < countryBox.length; i++) {
     countryBox[i].style.boxShadow = "3px 3px 7px " + "black";
@@ -118,7 +136,7 @@ headerMode.addEventListener("click", () => {
   }
 });
 
-// помилка в інпуті
+// помилка
 export function onError() {
   headerInput.value = "ERROR";
   headerInput.style.fontWeight = "bold";

@@ -1,18 +1,21 @@
 import { onError } from "./script.js";
 
-let lastRequest = null; // уникнути повторних запитів на сервер 1/3
-export async function getCountry(
-  searchMethod = "region",
-  searchValue = "europe"
-) {
-  if (!searchValue || (lastRequest && lastRequest === searchValue)) {
-    return;
-  } // уникнути пустих і повторних запитів на сервер 2/3
+const cache = {};
+export async function getCountry() {
   try {
+    const cacheKey = "getCountry"; // Кеш результату 1/3
+
+    if (cache[cacheKey]) {
+      return cache[cacheKey];
+    } // Кеш результату 2/3
+
+    // const response = await axios.get("https://restcountries.com/v3.1/all");
     const response = await axios.get(
-      `https://restcountries.com/v3.1/${searchMethod}/${searchValue}`
+      "https://restcountries.com/v3.1/name/ukraine"
     );
-    lastRequest = searchValue; // уникнути повторних запитів на сервер 3/3
+
+    // Кеш результату 3/3
+    cache[cacheKey] = response;
 
     return response;
   } catch (error) {
