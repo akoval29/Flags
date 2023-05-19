@@ -8,13 +8,13 @@ const searchBtn = document.querySelector(".header__btn");
 const layout = document.querySelector(".coutries");
 
 const filter = document.querySelector(".header__filter");
+const filterFlag = document.querySelector(".header__filterFlag");
 
 const listItem = document.querySelectorAll(".header__list-item");
 const sublistItem = document.querySelectorAll(".header__subList-item");
 
 const subList = document.querySelectorAll(".header__subList-item");
 
-const filterFlag = document.querySelector(".header__filterFlag");
 const target = document.querySelector(".header__target");
 
 // отримуєм дані
@@ -33,11 +33,18 @@ function onFilter(res) {
     event.preventDefault();
     generator(res);
     target.innerHTML = `All countries (${res.data.length})`;
+    filterFlag.innerHTML = "Filter";
   });
+
   // всі інші кнопки меню 2 рівня
   for (let i = 0; i < sublistItem.length; i++) {
     sublistItem[i].addEventListener("click", (event) => {
       event.preventDefault();
+      // ресет всього контента перед початком фільтрування
+      if (filterFlag.innerHTML !== "Filter") {
+        generator(res);
+      }
+      // фільтр
       filterFlag.innerHTML = `Filter by ${sublistItem[i].textContent}`;
       const currentSubListItem = sublistItem[i].textContent;
       const currentListItem = sublistItem[i]
@@ -54,15 +61,16 @@ function onFilter(res) {
       );
       toDisplayNone.forEach((element) => {
         const content = element.textContent.trim().toLowerCase();
-        if (
-          content.includes(
-            `${currentListItem.toLocaleLowerCase()}: ${currentSubListItem.toLocaleLowerCase()}`
-          )
-        ) {
+        // регулярне вираження, яке припускає текст до і після currentSubListItem
+        const regex = new RegExp(
+          `${currentListItem}:.*${currentSubListItem}.*`,
+          "i"
+        );
+        if (regex.test(content)) {
           console.log(`${currentSubListItem}-items found`);
         } else {
           element.parentNode.parentNode.style.display = "none";
-          // змінюєм поле під інпутом
+          // Поле під інпутом - шукаєш країни, які не зловили display: none
           const countriesLeft = document.querySelectorAll(
             '.coutries__country:not([style*="display: none"])'
           ).length;
