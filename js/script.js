@@ -5,16 +5,9 @@ const title = document.querySelector(".header__title");
 const headerInput = document.querySelector(".header__input");
 const headerMode = document.querySelector(".header__mode");
 const searchBtn = document.querySelector(".header__btn");
-const layout = document.querySelector(".coutries");
-
-const filter = document.querySelector(".header__filter");
+const countryBox = document.querySelector(".coutries");
 const filterFlag = document.querySelector(".header__filterFlag");
-
-const listItem = document.querySelectorAll(".header__list-item");
 const sublistItem = document.querySelectorAll(".header__subList-item");
-
-const subList = document.querySelectorAll(".header__subList-item");
-
 const target = document.querySelector(".header__target");
 
 // отримуєм дані
@@ -25,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   onFilter(res);
 });
 
-// розкидуєм eventListener на елементи меню, змінюєм фільтр
+// ФІЛЬТР - розкидуєм eventListener на елементи меню, змінюєм фільтр
 function onFilter(res) {
   // кнопка All (перший header__list-item)
   const AllBtn = document.querySelector(".header__list-item");
@@ -33,7 +26,7 @@ function onFilter(res) {
     event.preventDefault();
     generator(res);
     target.innerHTML = `All countries (${res.data.length})`;
-    filterFlag.innerHTML = "Filter";
+    filterFlag.innerHTML = "Filter off";
   });
 
   // всі інші кнопки меню 2 рівня
@@ -41,10 +34,10 @@ function onFilter(res) {
     sublistItem[i].addEventListener("click", (event) => {
       event.preventDefault();
       // ресет всього контента перед початком фільтрування
-      if (filterFlag.innerHTML !== "Filter") {
+      if (filterFlag.innerHTML !== "Filter off") {
         generator(res);
       }
-      // фільтр
+      // фільтр - визначаєм куди клікнув користувач
       filterFlag.innerHTML = `Filter by ${sublistItem[i].textContent}`;
       const currentSubListItem = sublistItem[i].textContent;
       const currentListItem = sublistItem[i]
@@ -54,7 +47,7 @@ function onFilter(res) {
       console.log(`you clicked: ${currentListItem} - ${currentSubListItem}`);
 
       // перевіряєм наявний на сторінці контент
-      // на предмет навності двох вищевказаних змінних
+      // на предмет навності двох вищевказаних змінних.
       // display: none - для тих хто не відповідає їм
       const toDisplayNone = document.querySelectorAll(
         `.coutries__${currentListItem}`
@@ -70,23 +63,47 @@ function onFilter(res) {
           console.log(`${currentSubListItem}-items found`);
         } else {
           element.parentNode.parentNode.style.display = "none";
-          // Поле під інпутом - шукаєш країни, які не зловили display: none
-          const countriesLeft = document.querySelectorAll(
+          // Поле під інпутом - шукаєм країни, які не зловили display: none
+          const countriesLeftCount = document.querySelectorAll(
             '.coutries__country:not([style*="display: none"])'
           ).length;
-          target.innerHTML = `${currentListItem}: ${currentSubListItem} (${countriesLeft})`;
+          target.innerHTML = `${currentListItem}: ${currentSubListItem} (${countriesLeftCount})`;
         }
       });
     });
   }
 }
 
+// ІНПУТ
+headerInput.addEventListener("input", function () {
+  const countryElements = document.querySelectorAll(".coutries__country");
+  const searchText = this.value.toLowerCase(); // Отримуємо текст з інпуту та перетворюємо його в нижній регістр
+  filterFlag.innerHTML = "Filter off";
+  // Перебираємо всі елементи країн
+  for (let i = 0; i < countryElements.length; i++) {
+    const countryName = countryElements[i]
+      .querySelector(".coutries__name")
+      .innerText.toLowerCase(); // Отримуємо назву країни та перетворюємо її в нижній регістр
+
+    // Перевіряємо, чи відповідає назва країни пошуковому запиту
+    if (countryName.includes(searchText)) {
+      countryElements[i].style.display = "flex"; // Відображаємо елемент, якщо відповідає пошуковому запиту
+    } else {
+      countryElements[i].style.display = "none"; // Приховуємо елемент, якщо не відповідає пошуковому запиту
+    }
+    const countriesLeftCount = document.querySelectorAll(
+      '.coutries__country:not([style*="display: none"])'
+    ).length;
+    target.innerHTML = `Input search: (${countriesLeftCount})`;
+  }
+});
+
 // генерим верстку
 function generator(res) {
   const { data } = res;
   console.log("generator reports:");
   console.log(data);
-  layout.innerHTML = "";
+  countryBox.innerHTML = "";
 
   for (let key in data) {
     let countryFlag = data[key].flags.png;
@@ -94,10 +111,10 @@ function generator(res) {
     let countryRegion = data[key].region;
     let countryCapital = data[key].capital;
     let countryPopul = data[key].population;
-    let countryLang = Object.values(data[key].languages).join(", ");
+    let countryLang = findNestedLevels(data[key].languages).join(", ");
     let countryCurr = findNestedLevels(data[key].currencies).join(", ");
 
-    layout.innerHTML += `
+    countryBox.innerHTML += `
     <div class="coutries__country">
       <img
         class="coutries__flag"
@@ -116,7 +133,7 @@ function generator(res) {
     `;
   }
 }
-// Рекурсія для currency бо там сильно nested.
+// Рекурсія для сильно nested ключів.
 function findNestedLevels(obj) {
   let result = [];
   function search(obj) {
