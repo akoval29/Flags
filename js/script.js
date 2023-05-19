@@ -43,7 +43,6 @@ function onFilter(res) {
       const currentListItem = sublistItem[i]
         .closest(".header__list-item")
         .querySelector(".header__list-item-title").textContent;
-
       console.log(`you clicked: ${currentListItem} - ${currentSubListItem}`);
 
       // перевіряєм наявний на сторінці контент
@@ -83,7 +82,7 @@ headerInput.addEventListener("input", function () {
   for (let i = 0; i < countryElements.length; i++) {
     const countryName = countryElements[i]
       .querySelector(".coutries__name")
-      .innerText.toLowerCase(); // Отримуємо назву країни та перетворюємо її в нижній регістр
+      .innerText.toLowerCase();
 
     // Перевіряємо, чи відповідає назва країни пошуковому запиту
     if (countryName.includes(searchText)) {
@@ -120,6 +119,7 @@ function generator(res) {
         class="coutries__flag"
         src="${countryFlag}"
         alt="flag-${countryName}"
+        loading="lazy" 
       />
       <div class="coutries__wrap">
         <p class="coutries__name">${countryName}</p>
