@@ -11,7 +11,7 @@ export async function getCountry() {
 
     // const response = await axios.get("https://restcountries.com/v3.1/all");
     const response = await axios.get(
-      "https://restcountries.com/v3.1/name/ukraine"
+      "https://restcountries.com/v3.1/region/europe"
     );
 
     // Кеш результату 3/3

@@ -168,7 +168,7 @@ $theme-color: rgb(199, 23, 23);
     padding: 10px;
     text-align: center;
     justify-content: center;
-    text-transform: uppercase;
+    // text-transform: uppercase;
 
     color: black;
     width: 189px;
@@ -221,7 +221,7 @@ $theme-color: rgb(199, 23, 23);
     width: 100%;
     height: 30px;
     text-decoration: none;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     color: black;
     background: linear-gradient(
       to bottom,
@@ -282,8 +282,10 @@ $theme-color: rgb(199, 23, 23);
     font-family: "Montserrat", sans-serif;
   }
   &__capital,
-  &__region {
-    margin-bottom: 5px;
+  &__region,
+  &__languages,
+  &__currencies {
+    margin-bottom: 7px;
   }
   &__spinner {
     width: 200px;

@@ -10,7 +10,7 @@ const layout = document.querySelector(".coutries");
 const filter = document.querySelector(".header__filter");
 
 const listItem = document.querySelectorAll(".header__list-item");
-const listItemTitle = document.querySelectorAll(".header__subList-item");
+const sublistItem = document.querySelectorAll(".header__subList-item");
 
 const subList = document.querySelectorAll(".header__subList-item");
 
@@ -18,41 +18,76 @@ const filterFlag = document.querySelector(".header__filterFlag");
 const target = document.querySelector(".header__target");
 
 // отримуєм дані
-// let currentMethod;
 document.addEventListener("DOMContentLoaded", async () => {
   const res = await getCountry();
-  onRequest(res.data);
-  target.innerHTML = `All counries (${res.data.length})`;
-
-  // розкидуєм eventListener на елементи меню, змінюєм фільтр
-  for (let i = 0; i < listItemTitle.length; i++) {
-    listItemTitle[i].addEventListener("click", (event) => {
-      event.preventDefault();
-      filterFlag.innerHTML = `Filter by ${listItemTitle[i].textContent}`;
-    });
-  }
+  target.innerHTML = `All countries (${res.data.length})`;
+  generator(res);
+  onFilter(res);
 });
 
-// Пошук
-// searchBtn.addEventListener("click", async () => {
-//   const res = await getCountry(currentMethod, headerInput.value);
-//   onRequest(res.data);
-//   target.innerHTML = `${headerInput.value} (${res.data.length})`;
-//   headerInput.value = "";
-// });
+// розкидуєм eventListener на елементи меню, змінюєм фільтр
+function onFilter(res) {
+  // кнопка All (перший header__list-item)
+  const AllBtn = document.querySelector(".header__list-item");
+  AllBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    generator(res);
+    target.innerHTML = `All countries (${res.data.length})`;
+  });
+  // всі інші кнопки меню 2 рівня
+  for (let i = 0; i < sublistItem.length; i++) {
+    sublistItem[i].addEventListener("click", (event) => {
+      event.preventDefault();
+      filterFlag.innerHTML = `Filter by ${sublistItem[i].textContent}`;
+      const currentSubListItem = sublistItem[i].textContent;
+      const currentListItem = sublistItem[i]
+        .closest(".header__list-item")
+        .querySelector(".header__list-item-title").textContent;
 
-// onRequest - генерим верстку
-function onRequest(data) {
-  console.log("onRequest reports:");
+      console.log(`you clicked: ${currentListItem} - ${currentSubListItem}`);
+
+      // перевіряєм наявний на сторінці контент
+      // на предмет навності двох вищевказаних змінних
+      // display: none - для тих хто не відповідає їм
+      const toDisplayNone = document.querySelectorAll(
+        `.coutries__${currentListItem}`
+      );
+      toDisplayNone.forEach((element) => {
+        const content = element.textContent.trim().toLowerCase();
+        if (
+          content.includes(
+            `${currentListItem.toLocaleLowerCase()}: ${currentSubListItem.toLocaleLowerCase()}`
+          )
+        ) {
+          console.log(`${currentSubListItem}-items found`);
+        } else {
+          element.parentNode.parentNode.style.display = "none";
+          // змінюєм поле під інпутом
+          const countriesLeft = document.querySelectorAll(
+            '.coutries__country:not([style*="display: none"])'
+          ).length;
+          target.innerHTML = `${currentListItem}: ${currentSubListItem} (${countriesLeft})`;
+        }
+      });
+    });
+  }
+}
+
+// генерим верстку
+function generator(res) {
+  const { data } = res;
+  console.log("generator reports:");
   console.log(data);
   layout.innerHTML = "";
 
   for (let key in data) {
-    let countryName = data[key].name.common;
     let countryFlag = data[key].flags.png;
-    let countryPopul = data[key].population;
-    let countryCapital = data[key].capital;
+    let countryName = data[key].name.common;
     let countryRegion = data[key].region;
+    let countryCapital = data[key].capital;
+    let countryPopul = data[key].population;
+    let countryLang = Object.values(data[key].languages).join(", ");
+    let countryCurr = findNestedLevels(data[key].currencies).join(", ");
 
     layout.innerHTML += `
     <div class="coutries__country">
@@ -65,40 +100,29 @@ function onRequest(data) {
         <p class="coutries__name">${countryName}</p>
         <p class="coutries__capital">Capital: ${countryCapital}</p>
         <p class="coutries__region">Region: ${countryRegion}</p>
+        <p class="coutries__languages">Languages: ${countryLang}</p>
+        <p class="coutries__currencies">Currencies: ${countryCurr}</p>
         <p class="coutries__population">Population: ${countryPopul}</p>
       </div>
     </div>
     `;
   }
 }
-
-// // меню - перший рівень - ховер
-// filter.addEventListener("mouseenter", () => {
-//   const list = document.querySelector(".header__list");
-//   list.classList.add("header__list--active");
-// });
-// filter.addEventListener("mouseleave", () => {
-//   const list = document.querySelector(".header__list");
-//   list.classList.remove("header__list--active");
-// });
-// // Фільтр - клік
-// filter.addEventListener("click", () => {
-//   const list = document.querySelector(".header__list");
-//   list.classList.toggle("header__list--active");
-// });
-
-// // меню - другий рівень - ховер
-// listItem.addEventListener("mouseenter", () => {
-//   console.log(subList);
-//   subList.classList.add("header__subList--active");
-// });
-// listItem.addEventListener("mouseleave", () => {
-//   subList.classList.remove("header__subList--active");
-// });
-// // меню - другий рівень - клік
-// listItem.addEventListener("click", () => {
-//   subList.classList.toggle("header__subList--active");
-// });
+// Рекурсія для currency бо там сильно nested.
+function findNestedLevels(obj) {
+  let result = [];
+  function search(obj) {
+    for (let key in obj) {
+      if (typeof obj[key] === "object") {
+        search(obj[key]);
+      } else {
+        result.push(obj[key]);
+      }
+    }
+  }
+  search(obj);
+  return result;
+}
 
 // тоглим тему
 headerMode.addEventListener("click", () => {
