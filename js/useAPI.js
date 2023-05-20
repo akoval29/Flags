@@ -10,12 +10,8 @@ export async function getCountry() {
     } // Кеш результату 2/3
 
     const response = await axios.get("https://restcountries.com/v3.1/all");
-    // const response = await axios.get(
-    //   "https://restcountries.com/v3.1/region/europe"
-    // );
 
-    // Кеш результату 3/3
-    cache[cacheKey] = response;
+    cache[cacheKey] = response; // Кеш результату 3/3
     console.log("getCountry reports: data recieved");
     return response;
   } catch (error) {
