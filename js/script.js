@@ -34,23 +34,30 @@ function onFilter(data) {
         .textContent.toLowerCase();
 
       const newData = data.filter((country) => {
-        let fieldValue = country[parent];
+        const fieldValue = country[parent];
+
         if (parent === "region") {
           return fieldValue.includes(element);
-        } else if (typeof fieldValue === "object") {
-          if (parent === "currencies") {
-            let currencyNames = Object.values(fieldValue).map((currency) =>
-              currency.name.toLowerCase()
-            );
-            return currencyNames.some((name) =>
-              name.includes(element.toLowerCase())
-            );
-          } else if (parent === "languages") {
-            let fieldValues = Object.values(fieldValue);
-            return fieldValues.includes(element);
-          }
+        }
+
+        if (typeof fieldValue !== "object") {
+          return false;
+        }
+
+        if (parent === "currencies") {
+          const currencyNames = Object.values(fieldValue).map((currency) =>
+            currency.name.toLowerCase()
+          );
+          return currencyNames.some((name) =>
+            name.includes(element.toLowerCase())
+          );
+        }
+
+        if (parent === "languages") {
+          return Object.values(fieldValue).includes(element);
         }
       });
+
       generator(newData);
       target.innerHTML = `${parent}: ${element} (${newData.length})`;
     }
