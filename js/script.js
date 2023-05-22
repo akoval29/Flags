@@ -129,7 +129,6 @@ function findNestedLevels(obj) {
 
 // тоглим тему
 headerMode.addEventListener("click", () => {
-  const main = document.querySelector(".main");
   const imgDark = document.querySelector(".header__img--dark");
   const imgLight = document.querySelector(".header__img--light");
   const themeFlag = document.querySelector(".header__mode-flag");
@@ -169,7 +168,7 @@ export function onError() {
   headerInput.style.fontWeight = "bold";
   headerInput.style.backgroundColor = "red";
   setTimeout(() => {
-    headerInput.style.removeProperty("background-color");
+    headerInput.style.backgroundColor = "";
     headerInput.value = "";
   }, 1000);
 }
