@@ -13,11 +13,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   const res = await getCountry();
   target.innerHTML = `All countries (${res.data.length})`;
   generator(res.data);
-  onFilter(res.data);
+  onclicks(res.data);
+  onInput(res.data);
 });
 
-// ФІЛЬТР
-function onFilter(data) {
+// Інпут
+function onInput(data) {
+  headerInput.addEventListener("input", (event) => {
+    event.preventDefault();
+    const searchText = headerInput.value.toLowerCase();
+    const newData = data.filter((country) => {
+      return country.name.common.toLowerCase().includes(searchText);
+    });
+    generator(newData);
+    target.innerHTML = `Input search: (${newData.length})`;
+  });
+}
+
+// Кліки
+function onclicks(data) {
   filter.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -27,53 +41,44 @@ function onFilter(data) {
     }
 
     if (event.target.classList.contains("header__subList-item")) {
-      const element = event.target.textContent;
-      const parent = event.target
-        .closest(".header__list-item")
-        .querySelector(".header__list-item-title")
-        .textContent.toLowerCase();
+      onFilter(event, data);
+    }
+  });
+}
 
-      const newData = data.filter((country) => {
-        const fieldValue = country[parent];
+// ФІЛЬТР
+function onFilter(event, data) {
+  const element = event.target.textContent;
+  const parent = event.target
+    .closest(".header__list-item")
+    .querySelector(".header__list-item-title")
+    .textContent.toLowerCase();
 
-        if (parent === "region") {
-          return fieldValue.includes(element);
-        }
+  const newData = data.filter((country) => {
+    const fieldValue = country[parent];
 
-        if (typeof fieldValue !== "object") {
-          return false;
-        }
+    if (parent === "region") {
+      return fieldValue.includes(element);
+    }
 
-        if (parent === "currencies") {
-          const currencyNames = Object.values(fieldValue).map((currency) =>
-            currency.name.toLowerCase()
-          );
-          return currencyNames.some((name) =>
-            name.includes(element.toLowerCase())
-          );
-        }
+    if (typeof fieldValue !== "object") {
+      return false;
+    }
 
-        if (parent === "languages") {
-          return Object.values(fieldValue).includes(element);
-        }
-      });
+    if (parent === "currencies") {
+      const currencyNames = Object.values(fieldValue).map((currency) =>
+        currency.name.toLowerCase()
+      );
+      return currencyNames.some((name) => name.includes(element.toLowerCase()));
+    }
 
-      generator(newData);
-      target.innerHTML = `${parent}: ${element} (${newData.length})`;
+    if (parent === "languages") {
+      return Object.values(fieldValue).includes(element);
     }
   });
 
-  // ІНПУТ
-  headerInput.addEventListener("input", (event) => {
-    event.preventDefault();
-    const searchText = headerInput.value.toLowerCase();
-    const newData = data.filter((country) => {
-      let fieldValue = country.name.common.toLowerCase();
-      return fieldValue.includes(searchText);
-    });
-    generator(newData);
-    target.innerHTML = `Input search: (${newData.length})`;
-  });
+  generator(newData);
+  target.innerHTML = `${parent}: ${element} (${newData.length})`;
 }
 
 // генерим верстку
@@ -85,11 +90,11 @@ function generator(data) {
   for (let key in data) {
     let countryFlag = data[key].flags.png;
     let countryName = data[key].name.common;
-    let countryRegion = data[key].region;
     let countryCapital = data[key].capital;
-    let countryPopul = data[key].population;
+    let countryRegion = data[key].region;
     let countryLang = findNestedLevels(data[key].languages).join(", ");
     let countryCurr = findNestedLevels(data[key].currencies).join(", ");
+    let countryPopul = data[key].population;
 
     countryBox.innerHTML += `
     <div class="countries__country">
