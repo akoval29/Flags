@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="public/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="test" />
+    <title>Countries v.2</title>
+    <link rel="stylesheet" href="style/style.css" />
+  <script defer src="bundle.js"></script></head>
+  <body class="main main--light">
+    <header class="header">
+      <article class="header__firstLine">
+        <p class="header__title">Where in the world?</p>
+        <div class="header__mode">
+          <img
+            class="header__img header__img--dark"
+            src="public/Mode--dark.png"
+            alt="ModeDark"
+          />
+          <img
+            class="header__img header__img--light"
+            src="public/Mode--light.png"
+            alt="ModeLight"
+          />
+          <p class="header__mode-flag">Dark Mode</p>
+        </div>
+      </article>
+      <article class="header__secondLine">
+        <div class="header__input-wrap">
+          <input
+            class="header__input"
+            name="header__input"
+            type="text"
+            placeholder="Search for a country"
+            required
+          />
+          <div class="header__target">Loading ...</div>
+        </div>
+
+        <section class="header__filter">
+          <p class="header__filterFlag">Filter</p>
+          <ul class="header__list">
+            <li class="header__list-item">
+              <a href="#" class="header__list-item-title">All</a>
+            </li>
+
+            <li class="header__list-item">
+              <a href="#" class="header__list-item-title">region</a>
+              <ul class="header__subList">
+                <li class="header__subList-item">Europe</li>
+                <li class="header__subList-item">Asia</li>
+                <li class="header__subList-item">Africa</li>
+                <li class="header__subList-item">America</li>
+                <li class="header__subList-item">Antarctic</li>
+                <li class="header__subList-item">Oceania</li>
+              </ul>
+            </li>
+
+            <li class="header__list-item">
+              <a href="#" class="header__list-item-title">languages</a>
+              <ul class="header__subList">
+                <li class="header__subList-item">English</li>
+                <li class="header__subList-item">Arabic</li>
+                <li class="header__subList-item">French</li>
+                <li class="header__subList-item">Spanish</li>
+                <li class="header__subList-item">Portuguese</li>
+                <li class="header__subList-item">German</li>
+                <li class="header__subList-item">Japanese</li>
+                <li class="header__subList-item">Swedish</li>
+                <li class="header__subList-item">Korean</li>
+                <li class="header__subList-item">Dutch</li>
+              </ul>
+            </li>
+
+            <li class="header__list-item">
+              <a href="#" class="header__list-item-title">currencies</a>
+              <ul class="header__subList">
+                <li class="header__subList-item">Dollar</li>
+                <li class="header__subList-item">Euro</li>
+                <li class="header__subList-item">Pound</li>
+                <li class="header__subList-item">Franc</li>
+                <li class="header__subList-item">Dinar</li>
+                <li class="header__subList-item">Rial</li>
+                <li class="header__subList-item">Yuan</li>
+                <li class="header__subList-item">Yen</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </header>
+    <section class="countries">
+      <span class="countries__spinner"></span>
+    </section>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="dist/bundle.js"></script>
+  </body>
+</html>
