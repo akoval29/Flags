@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Тоглим тему
   headerMode.addEventListener("click", (event) => {
-    event.stopPropagation(); // Зупиняє розповсюдження події на батьківські елементи
+    event.stopPropagation(); // Зупиняє розповсюдження події на інші елементи
     console.log("Theme toggle clicked!");
 
     const imgDark = document.querySelector(".header__img--dark");
@@ -151,20 +151,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const themeFlag = document.querySelector(".header__mode-flag");
 
     // Тогл теми
-    main.classList.toggle("main--dark");
-    main.classList.toggle("main--light");
-
-    const isDarkMode = main.classList.contains("main--dark");
+    const isDarkMode = main.classList.toggle("main--dark");
 
     // Логи для перевірки
     console.log(isDarkMode ? "goto dark" : "goto light");
 
     // Відповідне перемикання зображень та тексту
     if (isDarkMode) {
+      main.classList.remove("main--light");
       imgDark.style.display = "none";
       imgLight.style.display = "block";
       themeFlag.innerHTML = "Light mode";
     } else {
+      main.classList.add("main--light");
       imgDark.style.display = "block";
       imgLight.style.display = "none";
       themeFlag.innerHTML = "Dark mode";
