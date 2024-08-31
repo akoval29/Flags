@@ -145,7 +145,7 @@ headerMode.addEventListener("click", () => {
     .getComputedStyle(filter)
     .getPropertyValue("background-color");
   for (let i = 0; i < countryBox.length; i++) {
-    countryBox[i].style.boxShadow = "3px 3px 7px " + "black";
+    countryBox[i].style.boxShadow = "3px 3px 7px " + "rgba(0, 0, 0, 0.3)";
   } // тоглим тему - красим box-shadow 2/3
 
   if (main.classList.contains("main--dark")) {
@@ -162,7 +162,8 @@ headerMode.addEventListener("click", () => {
     themeFlag.innerHTML = "Light mode";
 
     for (let i = 0; i < countryBox.length; i++) {
-      countryBox[i].style.boxShadow = "3px 3px 7px " + color;
+      countryBox[i].style.boxShadow =
+        "3px 3px 7px " + "rgba(255, 255, 255, 0.3)";
     } // тоглим тему - красим box-shadow 3/3
   }
 });
