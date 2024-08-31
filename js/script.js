@@ -9,6 +9,8 @@ const countryBox = document.querySelector(".countries");
 const filter = document.querySelector(".header__filter");
 const target = document.querySelector(".header__target");
 
+console.log(`test`);
+
 // отримуєм дані
 document.addEventListener("DOMContentLoaded", async () => {
   const res = await getCountry();
