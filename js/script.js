@@ -1,4 +1,5 @@
 import { getCountry } from "./useAPI.js";
+import "../style/style.scss";
 
 const main = document.querySelector(".main");
 const title = document.querySelector(".header__title");
