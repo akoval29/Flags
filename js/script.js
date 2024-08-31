@@ -142,41 +142,42 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Тоглим тему
-  headerMode.addEventListener("click", (event) => {
-    event.stopPropagation(); // Зупиняє розповсюдження події на інші елементи
-    console.log("Theme toggle clicked!");
+  headerMode.addEventListener(
+    "click",
+    (event) => {
+      event.stopPropagation();
+      console.log("Theme toggle clicked!");
 
-    const imgDark = document.querySelector(".header__img--dark");
-    const imgLight = document.querySelector(".header__img--light");
-    const themeFlag = document.querySelector(".header__mode-flag");
+      const imgDark = document.querySelector(".header__img--dark");
+      const imgLight = document.querySelector(".header__img--light");
+      const themeFlag = document.querySelector(".header__mode-flag");
 
-    // Тогл теми
-    const isDarkMode = main.classList.toggle("main--dark");
+      // Тогл теми
+      const isDarkMode = main.classList.toggle("main--dark");
 
-    // Логи для перевірки
-    console.log(isDarkMode ? "goto dark" : "goto light");
+      console.log(isDarkMode ? "goto dark" : "goto light");
 
-    // Відповідне перемикання зображень та тексту
-    if (isDarkMode) {
-      main.classList.remove("main--light");
-      imgDark.style.display = "none";
-      imgLight.style.display = "block";
-      themeFlag.innerHTML = "Light mode";
-    } else {
-      main.classList.add("main--light");
-      imgDark.style.display = "block";
-      imgLight.style.display = "none";
-      themeFlag.innerHTML = "Dark mode";
-    }
+      if (isDarkMode) {
+        main.classList.remove("main--light");
+        imgDark.style.display = "none";
+        imgLight.style.display = "block";
+        themeFlag.innerHTML = "Light mode";
+      } else {
+        main.classList.add("main--light");
+        imgDark.style.display = "block";
+        imgLight.style.display = "none";
+        themeFlag.innerHTML = "Dark mode";
+      }
 
-    // Зміна тіні для країнових блоків
-    const countryBoxItems = document.querySelectorAll(".countries__country");
-    countryBoxItems.forEach((item) => {
-      item.style.boxShadow = isDarkMode
-        ? "3px 3px 7px rgba(255, 255, 255, 0.3)"
-        : "3px 3px 7px rgba(0, 0, 0, 0.3)";
-    });
-  });
+      const countryBoxItems = document.querySelectorAll(".countries__country");
+      countryBoxItems.forEach((item) => {
+        item.style.boxShadow = isDarkMode
+          ? "3px 3px 7px rgba(255, 255, 255, 0.3)"
+          : "3px 3px 7px rgba(0, 0, 0, 0.3)";
+      });
+    },
+    { once: true }
+  );
 
   // Фокус на текстовий інпут при кліках по сторінці
   main.addEventListener("click", () => {

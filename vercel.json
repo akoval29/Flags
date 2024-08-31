@@ -1,4 +1,16 @@
 {
+  "headers": [
+    {
+      "source": "/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ],
+
   "builds": [{ "src": "dist/**/*", "use": "@vercel/static" }],
   "routes": [{ "src": "/(.*)", "dest": "/dist/$1" }]
 }
