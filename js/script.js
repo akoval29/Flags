@@ -1,6 +1,8 @@
 import { getCountry } from "./useAPI.js";
 import "../style/style.scss";
 
+console.log("JavaScript loaded");
+
 document.addEventListener("DOMContentLoaded", async () => {
   const main = document.querySelector(".main");
   const title = document.querySelector(".header__title");
@@ -141,6 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Тоглим тему
   headerMode.addEventListener("click", () => {
+    console.log("Theme toggle clicked!");
     const imgDark = document.querySelector(".header__img--dark");
     const imgLight = document.querySelector(".header__img--light");
     const themeFlag = document.querySelector(".header__mode-flag");
