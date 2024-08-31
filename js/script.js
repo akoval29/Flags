@@ -10,12 +10,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const filter = document.querySelector(".header__filter");
   const target = document.querySelector(".header__target");
 
-  // Отримуєм дані
-  const res = await getCountry();
-  target.innerHTML = `All countries (${res.data.length})`;
-  generator(res.data);
-  onclicks(res.data);
-  onInput(res.data);
+  // Отримуємо дані
+  try {
+    const res = await getCountry();
+    target.innerHTML = `All countries (${res.data.length})`;
+    generator(res.data);
+    onclicks(res.data);
+    onInput(res.data);
+  } catch (error) {
+    onError();
+  }
 
   // Інпут
   function onInput(data) {
@@ -141,15 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const imgLight = document.querySelector(".header__img--light");
     const themeFlag = document.querySelector(".header__mode-flag");
 
-    const countryBox = document.querySelectorAll(".countries__country");
-    const filter = document.querySelector(".header__filter");
-    const color = window
-      .getComputedStyle(filter)
-      .getPropertyValue("background-color");
-
-    for (let i = 0; i < countryBox.length; i++) {
-      countryBox[i].style.boxShadow = "3px 3px 7px " + "rgba(0, 0, 0, 0.3)";
-    }
+    const countryBoxItems = document.querySelectorAll(".countries__country");
 
     if (main.classList.contains("main--dark")) {
       main.classList.add("main--light");
@@ -164,10 +160,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       imgLight.style.display = "block";
       themeFlag.innerHTML = "Light mode";
 
-      for (let i = 0; i < countryBox.length; i++) {
-        countryBox[i].style.boxShadow =
-          "3px 3px 7px " + "rgba(255, 255, 255, 0.3)";
-      }
+      countryBoxItems.forEach((item) => {
+        item.style.boxShadow = "3px 3px 7px rgba(255, 255, 255, 0.3)";
+      });
     }
   });
 
@@ -184,6 +179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Помилка
 export function onError() {
+  const headerInput = document.querySelector(".header__input");
   headerInput.value = "ERROR";
   headerInput.style.fontWeight = "bold";
   headerInput.style.backgroundColor = "red";
