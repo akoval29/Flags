@@ -247,6 +247,7 @@
      object-position: center;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
 }
 .countries__wrap {
   padding: 15px;

@@ -153,10 +153,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Відповідне перемикання зображень та тексту
     if (isDarkMode) {
+      console.log(`goto light`);
       imgDark.style.display = "none";
       imgLight.style.display = "block";
       themeFlag.innerHTML = "Light mode";
     } else {
+      console.log(`goto dark`);
       imgDark.style.display = "block";
       imgLight.style.display = "none";
       themeFlag.innerHTML = "Dark mode";
