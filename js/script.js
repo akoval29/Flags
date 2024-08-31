@@ -145,25 +145,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     const imgLight = document.querySelector(".header__img--light");
     const themeFlag = document.querySelector(".header__mode-flag");
 
-    const countryBoxItems = document.querySelectorAll(".countries__country");
+    // Тогл теми
+    main.classList.toggle("main--dark");
+    main.classList.toggle("main--light");
 
-    if (main.classList.contains("main--dark")) {
-      main.classList.add("main--light");
-      main.classList.remove("main--dark");
-      imgDark.style.display = "block";
-      imgLight.style.display = "none";
-      themeFlag.innerHTML = "Dark mode";
-    } else {
-      main.classList.add("main--dark");
-      main.classList.remove("main--light");
+    const isDarkMode = main.classList.contains("main--dark");
+
+    // Відповідне перемикання зображень та тексту
+    if (isDarkMode) {
       imgDark.style.display = "none";
       imgLight.style.display = "block";
       themeFlag.innerHTML = "Light mode";
-
-      countryBoxItems.forEach((item) => {
-        item.style.boxShadow = "3px 3px 7px rgba(255, 255, 255, 0.3)";
-      });
+    } else {
+      imgDark.style.display = "block";
+      imgLight.style.display = "none";
+      themeFlag.innerHTML = "Dark mode";
     }
+
+    // Зміна тіні для країнових блоків
+    const countryBoxItems = document.querySelectorAll(".countries__country");
+    countryBoxItems.forEach((item) => {
+      item.style.boxShadow = isDarkMode
+        ? "3px 3px 7px rgba(255, 255, 255, 0.3)"
+        : "3px 3px 7px rgba(0, 0, 0, 0.3)";
+    });
   });
 
   // Фокус на текстовий інпут при кліках по сторінці
